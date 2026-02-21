@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Materi CRUD</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -110,7 +111,7 @@
                 <button class="bg-green-400 text-white px-3 py-1 rounded-lg text-sm hover:cursor-pointer" onclick="getBookDetails({{ $book->id }})">
                     Details
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm">
+                <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm" onclick="deleteBook({{ $book->id }})">
                     Delete
                 </button>
             </td>
@@ -180,6 +181,26 @@ function getBookDetails(id) {
         });
 }
 
+function closeModal() {
+    // document.getElementById('bookModal').classList.remove('flex');
+    document.getElementById('bookModal').classList.add('hidden');
+}
+
+function deleteBook(id){
+
+    if (!confirm("Are you sure?")) return;
+
+    fetch(`delete/books/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        location.reload();
+    });
+}
 </script>
 </body>
 </html>

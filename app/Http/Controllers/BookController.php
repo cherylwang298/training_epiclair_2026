@@ -33,7 +33,7 @@ class BookController extends Controller
                 'title' => $request->book_title,
                 'author' => $request->book_author,
                 'publisher' => $request->book_publisher,
-                'cover' => $request->book_cover,
+                'cover' => $coverPath,
                 'description' => $request->book_description,
             ]);
             
@@ -62,6 +62,12 @@ class BookController extends Controller
     public function getDetails($id){
         $books = Books::findorFail($id);
          return response()->json($books);
+    }
+
+    public function deleteBook($id){
+        $books = Books::findorFail($id);
+        $books->delete();
+        return response()->json(['success' => true]);
     }
 
     }
