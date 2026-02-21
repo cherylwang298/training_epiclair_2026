@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', [BookController::class, 'getBooks'])->name('getBooks');
 Route::post('/submit', [BookController::class, 'addBook'])->name('addBook');
 Route::get('/books/{id}', [BookController::class, 'getDetails'])->name('getDetails');
 Route::delete('/delete/books/{id}', [BookController::class, 'deleteBook'])->name('deleteBook');
+Route::put('/books/{id}', [BookController::class, 'updateBook'])->name('updateBook');
+
+Route::get('/welcome', function(){
+    return view ('welcome');
+});

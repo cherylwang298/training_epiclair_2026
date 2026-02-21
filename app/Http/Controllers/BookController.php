@@ -70,4 +70,52 @@ class BookController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function updateBook(Request $request, $id){
+        $book = Books::findorFail($id);
+
+        $request->validate([
+            'book_title' => 'required|string',
+            'book_author' => 'required|string',
+            'book_publisher' => 'required|string',
+            'book_cover' => 'nullable|mimes:jpg,jpeg,png',
+            'book_description' => 'nullable|string',
+        ]);
+        
+        DB::beginTransaction();
+
+        try{
+
+        $coverPath = $book->cover;
+
+        if ($request->hasFile('book_cover')) {
+            $coverPath = $request->file('book_cover')
+                                 ->store('covers', 'public');
+            }
+        
+            $book->update([
+                'cover' => $coverPath,
+            ]);
+            
+
+            $book->update([
+                'title' => $request->book_title,
+                'author' => $request->book_author,
+                'publisher' => $request->book_publisher,
+                'cover' => $coverPath,
+                'description' => $request->book_description,
+            ]);
+            
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Book updated successfully');
+        }catch(\Exception $e){
+        DB::rollBack();
+            Log::error('Error: ' . $e->getMessage());
+
+            return back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please try again.');
     }
+    }
+
+}

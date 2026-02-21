@@ -105,7 +105,7 @@
                                 <td class="p-3">{{$book->author}}</td>
                                 <td class="p-3">{{$book->publisher}}</td>   
                                  <td class="p-3 text-center flex gap-2 justify-center">
-                <button class="bg-blue-400 text-white px-3 py-1 rounded-lg text-sm">
+                <button class="bg-blue-400 text-white px-3 py-1 rounded-lg text-sm" onclick="openEditModal({{ $book->id }})">
                     Edit
                 </button>
                 <button class="bg-green-400 text-white px-3 py-1 rounded-lg text-sm hover:cursor-pointer" onclick="getBookDetails({{ $book->id }})">
@@ -151,6 +151,74 @@
 
     </div>
 
+</div>
+
+<div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center">
+
+    <div class="bg-white w-[500px] rounded-2xl p-6 relative">
+
+        <button onclick="closeEditModal()" 
+            class="absolute top-3 right-3 text-gray-500 hover:text-black">
+            ✕
+        </button>
+
+        <h2 class="text-2xl font-bold mb-4 text-center">Edit Book</h2>
+
+        <form id="editForm" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="space-y-3">
+
+                <input type="hidden" name="id" id="editBookId">
+
+                <div>
+                    <label class="text-sm">Title</label>
+                    <input type="text" name="book_title" id="editTitle"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="text-sm">Author</label>
+                    <input type="text" name="book_author" id="editAuthor"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="text-sm">Publisher</label>
+                    <input type="text" name="book_publisher" id="editPublisher"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="text-sm">Cover</label>
+                    <input type="file" name="book_cover"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="text-sm">Description</label>
+                    <textarea name="book_description" id="editDescription"
+                        class="w-full border rounded-lg px-3 py-2"></textarea>
+                </div>
+
+                <div class="flex gap-2 mt-3">
+                    <button type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                        Update
+                    </button>
+
+                    <button type="button"
+                        onclick="closeEditModal()"
+                        class="bg-gray-300 px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
 </div>
 
 
@@ -200,6 +268,30 @@ function deleteBook(id){
     .then(data => {
         location.reload();
     });
+}
+
+function openEditModal(id) {
+
+    fetch(`/books/${id}`)
+        .then(response => response.json())
+        .then(data => {
+
+            document.getElementById('editBookId').value = data.id;
+            document.getElementById('editTitle').value = data.title;
+            document.getElementById('editAuthor').value = data.author;
+            document.getElementById('editPublisher').value = data.publisher;
+            document.getElementById('editDescription').value = data.description;
+
+            // set action buat form, di web.php itu yg ini route ny: Route::put('/books/{id}', [BookController::class, 'updateBook'])->name('updateBook');
+            document.getElementById('editForm').action = `/books/${data.id}`;
+
+            document.getElementById('editModal').classList.remove('hidden');
+            document.getElementById('editModal').classList.add('flex');
+        });
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.add('hidden');
 }
 </script>
 </body>
