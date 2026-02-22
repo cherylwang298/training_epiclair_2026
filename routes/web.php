@@ -12,3 +12,7 @@ Route::put('/books/{id}', [BookController::class, 'updateBook'])->name('updateBo
 Route::get('/welcome', function(){
     return view ('welcome');
 });
+
+Route::get('/tailwind-materi', function(){
+    return view('tailwind-materi');
+});
