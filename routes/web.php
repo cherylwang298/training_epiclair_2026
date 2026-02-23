@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\MemberController;
 
 Route::get('/', [BookController::class, 'getBooks'])->name('getBooks');
 Route::post('/submit', [BookController::class, 'addBook'])->name('addBook');
@@ -26,6 +27,9 @@ Route::get('/new', function(){
 });
 
 
-Route::get('/frontend-traning', function(){
-    return view('frontend-traning');
-});
+// Route::get('/tugas', function () {
+//     return view('tugas.tugas');
+// });
+
+Route::get('/tugas', [MemberController::class, 'index'])->name('members.index');
+Route::post('/tugas', [MemberController::class, 'store'])->name('members.store');

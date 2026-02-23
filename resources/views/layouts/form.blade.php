@@ -20,7 +20,7 @@
 
     <div class="max-w-5xl mx-auto">
 
-        <div class="bg-white shadow-lg rounded-2xl p-6 mx-4 mb-8">
+        <div class="bg-white shadow-lg rounded-2xl p-6 mx-4 mb-8 mt-10">
 
             <h2 class="text-xl text-center font-bold mb-4 text-gray-700">
                 Add New Member
