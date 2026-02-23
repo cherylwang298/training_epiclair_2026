@@ -24,3 +24,7 @@ Route::get('/form-template', function(){
 Route::get('/new', function(){
     return view('frontend-training');
 });
+
+Route::get('/tugas', function(){
+    return view ('tugas.tugas');
+});

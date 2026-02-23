@@ -1,0 +1,11 @@
+Tugas:
+
+- Bikin satu form CRUD baru, terserah mau tentang apa. 
+- Untuk tampilan (views), boleh pakai yang sudah disediakan (ini akan extend dari layout).
+- Atau bikin tampilannya sepenuhnya baru juga gapapa. 
+
+list yang diperlukan: views, migration, routes, models, controller
+
+untuk buka view tugas, bisa akses pakai /tugas di browser, sesuai sama yang ada di web.php
+
+Deadline: 24 Februari 23.59
