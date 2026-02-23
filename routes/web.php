@@ -16,3 +16,11 @@ Route::get('/welcome', function(){
 Route::get('/tailwind-materi', function(){
     return view('tailwind-materi');
 });
+
+Route::get('/form-template', function(){
+    return view('template.form-template');
+});
+
+Route::get('/new', function(){
+    return view('frontend-training');
+});
