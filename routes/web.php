@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\BookController;
 
 Route::get('/', [BookController::class, 'getBooks'])->name('getBooks');
@@ -25,6 +26,12 @@ Route::get('/new', function(){
     return view('frontend-training');
 });
 
-Route::get('/tugas', function(){
-    return view ('tugas.tugas');
-});
+Route::get('/tugas', [TaskController::class, 'index'])->name('tugas.index');
+Route::post('/tugas', [TaskController::class, 'store'])->name('tugas.store');
+Route::delete('/tugas/{tuga}', [TaskController::class, 'destroy'])->name('tugas.destroy');
+Route::get('/tugas/{tuga}/edit', [TaskController::class, 'edit'])->name('tugas.edit');
+Route::put('/tugas/{tuga}', [TaskController::class, 'update'])->name('tugas.update');
+
+// Route::get('/tugas', function(){
+//     return view ('tugas.tugas');
+// });
