@@ -22,6 +22,9 @@ class BookController extends Controller
 
         DB::beginTransaction();
 
+        // kasih default null dulu
+        $coverPath = null;
+
         try{
 
             if ($request->hasFile('book_cover')) {
