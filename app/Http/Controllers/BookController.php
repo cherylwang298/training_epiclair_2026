@@ -12,6 +12,8 @@ class BookController extends Controller
     //
     public function addBook(Request $request){
 
+        $coverPath = null;
+
         $request->validate([
             'book_title' => 'required|string',
             'book_author' => 'required|string',

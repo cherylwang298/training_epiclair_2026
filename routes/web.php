@@ -25,6 +25,7 @@ Route::get('/new', function(){
     return view('frontend-training');
 });
 
+
 Route::get('/frontend-traning', function(){
     return view('frontend-traning');
 });
