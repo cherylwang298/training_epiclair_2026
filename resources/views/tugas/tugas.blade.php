@@ -1,3 +1,5 @@
+{{-- boleh pakai ini langsung, atau mau dihapus semua terus kerja dari awal juga boleh --}}
+
 @extends('layouts.form')
 
 @section('form')
