@@ -15,4 +15,12 @@ class Books extends Model
         'cover',
         'description',
     ];
+    public function ratings()
+{
+    return $this->hasMany(Rating::class, 'book_id');
+}
+public function getAverageRatingAttribute()
+{
+    return round($this->ratings()->avg('rating'), 1);
+}
 }

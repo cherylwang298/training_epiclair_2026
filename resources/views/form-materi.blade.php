@@ -111,6 +111,10 @@
                 <button class="bg-green-400 text-white px-3 py-1 rounded-lg text-sm hover:cursor-pointer" onclick="getBookDetails({{ $book->id }})">
                     Details
                 </button>
+                <a href="{{ route('ratingPage', $book->id) }}"
+                class="bg-yellow-500 text-white px-3 py-1 rounded-lg text-sm">
+                Rating
+                </a>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm" onclick="deleteBook({{ $book->id }})">
                     Delete
                 </button>

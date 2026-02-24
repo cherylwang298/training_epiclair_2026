@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('publisher');
             $table->string('cover')->nullable();
-            $table->string('description')->nullable();    
+            $table->string('description')->nullable(); 
             $table->timestamps();
         });
     }

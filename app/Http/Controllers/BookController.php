@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
-    //
-    public function addBook(Request $request){
-
+ 
+    public function addBook(Request $request)
+    {
         $request->validate([
             'book_title' => 'required|string',
             'book_author' => 'required|string',
@@ -22,56 +22,64 @@ class BookController extends Controller
 
         DB::beginTransaction();
 
-        try{
+        try {
+
+            $coverPath = null;
 
             if ($request->hasFile('book_cover')) {
-            $coverPath = $request->file('book_cover')
-                                 ->store('covers', 'public');
+                $coverPath = $request->file('book_cover')
+                                     ->store('covers', 'public');
             }
 
-            $book = Books::create([
+            Books::create([
                 'title' => $request->book_title,
                 'author' => $request->book_author,
                 'publisher' => $request->book_publisher,
                 'cover' => $coverPath,
                 'description' => $request->book_description,
             ]);
-            
-           
 
             DB::commit();
 
             return redirect()->back()->with('success', 'Book added successfully');
-        }catch(\Exception $e){
-            DB::rollBack();
 
+        } catch (\Exception $e) {
+
+            DB::rollBack();
             Log::error('Error: ' . $e->getMessage());
 
             return back()
                 ->withInput()
                 ->with('error', 'Something went wrong. Please try again.');
         }
-   
     }
 
-    public function getBooks(){
+
+    public function getBooks()
+    {
         $books = Books::all();
         return view('form-materi', compact('books'));
     }
 
-    public function getDetails($id){
-        $books = Books::findorFail($id);
-         return response()->json($books);
+    public function getDetails($id)
+    {
+        $book = Books::with('ratings')->findOrFail($id);
+        return response()->json($book);
     }
 
-    public function deleteBook($id){
-        $books = Books::findorFail($id);
-        $books->delete();
+
+    public function deleteBook($id)
+    {
+        $book = Books::findOrFail($id);
+        $book->delete();
+
         return response()->json(['success' => true]);
     }
 
-    public function updateBook(Request $request, $id){
-        $book = Books::findorFail($id);
+
+    public function updateBook(Request $request, $id)
+    {
+        $book = Books::findOrFail($id);
 
         $request->validate([
             'book_title' => 'required|string',
@@ -80,22 +88,17 @@ class BookController extends Controller
             'book_cover' => 'nullable|mimes:jpg,jpeg,png',
             'book_description' => 'nullable|string',
         ]);
-        
+
         DB::beginTransaction();
 
-        try{
+        try {
 
-        $coverPath = $book->cover;
+            $coverPath = $book->cover;
 
-        if ($request->hasFile('book_cover')) {
-            $coverPath = $request->file('book_cover')
-                                 ->store('covers', 'public');
+            if ($request->hasFile('book_cover')) {
+                $coverPath = $request->file('book_cover')
+                                     ->store('covers', 'public');
             }
-        
-            $book->update([
-                'cover' => $coverPath,
-            ]);
-            
 
             $book->update([
                 'title' => $request->book_title,
@@ -104,18 +107,26 @@ class BookController extends Controller
                 'cover' => $coverPath,
                 'description' => $request->book_description,
             ]);
-            
+
             DB::commit();
 
             return redirect()->back()->with('success', 'Book updated successfully');
-        }catch(\Exception $e){
-        DB::rollBack();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
             Log::error('Error: ' . $e->getMessage());
 
             return back()
                 ->withInput()
                 ->with('error', 'Something went wrong. Please try again.');
-    }
+        }
     }
 
+
+    public function ratingPage($id)
+    {
+        $book = Books::with('ratings')->findOrFail($id);
+        return view('tugas', compact('book'));
+    }
 }
