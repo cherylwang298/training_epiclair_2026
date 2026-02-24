@@ -10,19 +10,19 @@ Route::get('/books/{id}', [BookController::class, 'getDetails'])->name('getDetai
 Route::delete('/delete/books/{id}', [BookController::class, 'deleteBook'])->name('deleteBook');
 Route::put('/books/{id}', [BookController::class, 'updateBook'])->name('updateBook');
 
-Route::get('/welcome', function(){
-    return view ('welcome');
+Route::get('/welcome', function () {
+    return view('welcome');
 });
 
-Route::get('/tailwind-materi', function(){
+Route::get('/tailwind-materi', function () {
     return view('tailwind-materi');
 });
 
-Route::get('/form-template', function(){
+Route::get('/form-template', function () {
     return view('template.form-template');
 });
 
-Route::get('/new', function(){
+Route::get('/new', function () {
     return view('frontend-training');
 });
 
@@ -31,9 +31,15 @@ Route::get('/new', function(){
 //     return view('tugas.tugas');
 // });
 
-Route::get('/tugas', [MemberController::class, 'index'])->name('members.index');
-Route::post('/tugas', [MemberController::class, 'store'])->name('members.store');
-Route::get('/tugas/view/{id}', [MemberController::class, 'view'])->name('members.view');
-Route::get('/tugas/edit/{id}', [MemberController::class, 'edit'])->name('members.edit');
-Route::put('/tugas/{id}', [MemberController::class, 'update'])->name('members.update');
-Route::delete('/tugas/{id}', [MemberController::class, 'destroy'])->name('members.destroy');
+Route::prefix('tugas')
+    ->name('members.')
+    ->controller(MemberController::class)
+    ->group(function () {
+
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('/view/{id}', 'view')->name('view');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
