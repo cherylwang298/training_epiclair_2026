@@ -33,3 +33,7 @@ Route::get('/new', function(){
 
 Route::get('/tugas', [MemberController::class, 'index'])->name('members.index');
 Route::post('/tugas', [MemberController::class, 'store'])->name('members.store');
+Route::get('/tugas/view/{id}', [MemberController::class, 'view'])->name('members.view');
+Route::get('/tugas/edit/{id}', [MemberController::class, 'edit'])->name('members.edit');
+Route::put('/tugas/{id}', [MemberController::class, 'update'])->name('members.update');
+Route::delete('/tugas/{id}', [MemberController::class, 'destroy'])->name('members.destroy');

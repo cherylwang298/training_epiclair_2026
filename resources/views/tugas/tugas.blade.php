@@ -69,7 +69,8 @@
       @enderror block text-sm font-medium text-gray-600 mb-1">
         Major:
       </label>
-      <select name="major" class="@error('major')
+      <select name="major"
+        class="@error('major')
           border-red-500 ring-2 ring-red-500
         @enderror form-select border border-yellow-700 rounded-lg px-3 py-2">
         <option value="default" disabled selected>Select the major</option>
@@ -78,7 +79,7 @@
         <option value="Bussiness Information System">Bussiness Information System</option>
 
       </select>
-       @error('major')
+      @error('major')
         <p class="mt-1 text-xs text-red-400">{{ $message }}</p>
       @enderror
     </div>
@@ -151,18 +152,23 @@ kalau mau buat sendiri juga boleh. --}}
             <td class="p-3">{{ $member->last_name ?? 'N/A' }}</td>
             <td class="p-3">{{ $member->major }}</td>
             <td class="p-3 text-center flex gap-2 justify-center">
-              <button class="bg-blue-400 text-white px-3 py-1 rounded-lg text-sm"
-                onclick="openEditModal({{ $member->id }})">
+              <a href="{{ route('members.edit', $member->id) }}"
+                class="bg-blue-400 text-white px-3 py-1 rounded-lg text-sm">
                 Edit
-              </button>
-              <button class="bg-green-400 text-white px-3 py-1 rounded-lg text-sm hover:cursor-pointer"
-                onclick="getMemberDetails({{ $member->id }})">
+              </a>
+              <a href="{{ route('members.view', $member->id) }}"
+                class="bg-green-400 text-white px-3 py-1 rounded-lg text-sm">
                 Details
-              </button>
-              <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
-                onclick="deleteMember({{ $member->id }})">
-                Delete
-              </button>
+              </a>
+              <form action="{{ route('members.destroy', $member->id) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this member?')">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm">
+                  Delete
+                </button>
+              </form>
             </td>
           </tr>
         @empty
@@ -175,6 +181,88 @@ kalau mau buat sendiri juga boleh. --}}
       </tbody>
     </table>
   </div>
+
+  @if (isset($viewMember))
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center">
+      <div class="bg-white w-[500px] rounded-2xl p-6 relative">
+
+        <a href="{{ route('members.index') }}" class="absolute top-3 right-3 text-gray-500 hover:text-black">
+          ✕
+        </a>
+
+        <h2 class="text-2xl font-bold mb-4 text-center">Member Details</h2>
+
+        @if ($viewMember->profile_picture)
+          <img src="{{ asset('storage/' . $viewMember->profile_picture) }}" class="w-32 mx-auto mb-3 rounded-lg">
+        @endif
+
+        <p><strong>First Name:</strong> {{ $viewMember->first_name }}</p>
+        <p><strong>Last Name:</strong> {{ $viewMember->last_name ?? 'N/A' }}</p>
+        <p><strong>Major:</strong> {{ $viewMember->major }}</p>
+        <p><strong>Hobby:</strong> {{ $viewMember->hobby ?? 'N/A' }}</p>
+        <p><strong>Bio:</strong> {{ $viewMember->bio ?? 'N/A' }}</p>
+
+      </div>
+    </div>
+  @endif
+
+  @if (isset($editMember))
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center">
+      <div class="bg-white w-[500px] rounded-2xl p-6 relative">
+
+        <a href="{{ route('members.index') }}" class="absolute top-3 right-3 text-gray-500 hover:text-black">
+          ✕
+        </a>
+
+        <h2 class="text-2xl font-bold mb-4 text-center">Edit Member</h2>
+
+        <form action="{{ route('members.update', $editMember->id) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
+
+          <div class="space-y-3">
+
+            <input type="text" name="first_name" value="{{ $editMember->first_name }}"
+              class="w-full border rounded-lg px-3 py-2">
+
+            <input type="text" name="last_name" value="{{ $editMember->last_name }}"
+              class="w-full border rounded-lg px-3 py-2">
+
+            <input type="text" name="hobby" value="{{ $editMember->hobby }}"
+              class="w-full border rounded-lg px-3 py-2">
+
+            <select name="major" class="w-full border rounded-lg px-3 py-2">
+              <option value="Informatics" {{ $editMember->major == 'Informatics' ? 'selected' : '' }}>Informatics
+              </option>
+              <option value="Data Science & Analitics"
+                {{ $editMember->major == 'Data Science & Analitics' ? 'selected' : '' }}>Data Science & Analitics
+              </option>
+              <option value="Bussiness Information System"
+                {{ $editMember->major == 'Bussiness Information System' ? 'selected' : '' }}>Bussiness Information System
+              </option>
+            </select>
+
+            <textarea name="bio" class="w-full border rounded-lg px-3 py-2">{{ $editMember->bio }}</textarea>
+
+            <input type="file" name="profile_picture" class="w-full border rounded-lg px-3 py-2">
+
+            <div class="flex gap-2 mt-3">
+              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                Update
+              </button>
+
+              <a href="{{ route('members.index') }}" class="bg-gray-300 px-4 py-2 rounded-lg text-center">
+                Cancel
+              </a>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+    </div>
+  @endif
+
 @endsection
 
 {{-- kalau copy dari template coba ubah tampilannya dikit", kek warna/tulisan dll nya buat latihan tailwind nya jugaa --}}
