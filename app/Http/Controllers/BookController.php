@@ -24,6 +24,8 @@ class BookController extends Controller
 
         try{
 
+        $coverPath = null;
+
             if ($request->hasFile('book_cover')) {
             $coverPath = $request->file('book_cover')
                                  ->store('covers', 'public');
