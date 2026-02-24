@@ -7,10 +7,13 @@
     <title>Document</title>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ribeye&family=Ribeye&display=swap" rel="stylesheet">
 
 
 </head>
-<body>
+<body style="font-family: 'Ribeye', sans-serif;" class="bg-purple-100">
 {{-- 
     @yield('content')
 
@@ -20,10 +23,10 @@
 
     <div class="max-w-5xl mx-auto">
 
-        <div class="bg-white shadow-lg rounded-2xl p-6 mx-4 mb-8">
+        <div class="bg-pink-100 shadow-lg rounded-2xl p-6 mx-4 mb-8">
 
             <h2 class="text-xl text-center font-bold mb-4 text-gray-700">
-                Add New Member
+                FILM FAVORIT KAMU
             </h2>
 
             @yield('form')
@@ -31,7 +34,7 @@
         </div>
 
 
-        <div class="bg-white shadow-lg rounded-2xl p-6 mx-3">
+        <div class="bg-pink-100 shadow-lg rounded-2xl p-6 mx-3">
 
             <h2 class="text-xl font-bold mb-4 text-gray-700 text-center">
                 Members

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\FilmController;
 
 Route::get('/', [BookController::class, 'getBooks'])->name('getBooks');
 Route::post('/submit', [BookController::class, 'addBook'])->name('addBook');
@@ -28,3 +29,5 @@ Route::get('/new', function(){
 Route::get('/tugas', function(){
     return view ('tugas.tugas');
 });
+
+Route::resource('films', FilmController::class);
