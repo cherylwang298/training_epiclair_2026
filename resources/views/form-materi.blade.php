@@ -10,7 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl mx-auto">x
 
         <h1 class="text-3xl text-center font-bold mb-6 text-gray-800">
             Materi CRUD

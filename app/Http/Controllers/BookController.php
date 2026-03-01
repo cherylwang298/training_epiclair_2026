@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     //
     public function addBook(Request $request){
-
+        //Validasi yang masuk
         $request->validate([
             'book_title' => 'required|string',
             'book_author' => 'required|string',
@@ -23,6 +23,8 @@ class BookController extends Controller
         DB::beginTransaction();
 
         try{
+// buat nandain cover path harus kosong dulu
+            $coverPath = null;  
 
             if ($request->hasFile('book_cover')) {
             $coverPath = $request->file('book_cover')
@@ -38,7 +40,7 @@ class BookController extends Controller
             ]);
             
            
-
+            //Masukkin datanya 
             DB::commit();
 
             return redirect()->back()->with('success', 'Book added successfully');
@@ -73,6 +75,8 @@ class BookController extends Controller
     public function updateBook(Request $request, $id){
         $book = Books::findorFail($id);
 
+        //Nullable = boleh kosong(o)
+        //Required = haris diisi (*)
         $request->validate([
             'book_title' => 'required|string',
             'book_author' => 'required|string',
